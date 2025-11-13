@@ -255,7 +255,18 @@ class TecminiCursosApp(tk.Tk):
         super().__init__()
         self.title("TECMINI Cursos - Módulo de Enseñanza")
         self.geometry("1000x700")
-        self.config(bg="#F4FBF6")
+        
+        # Paleta de colores basada en la imagen de TECMINI
+        self.colors = {
+            "azul_oscuro": "#1B3A6B",
+            "azul_medio": "#2A4B8C",
+            "azul_claro": "#4A7BC8",
+            "verde": "#4CAF50",
+            "blanco": "#FFFFFF",
+            "fondo_claro": "#F0F5FF"
+        }
+        
+        self.config(bg=self.colors["fondo_claro"])
 
         # Datos del usuario actual (serán asignados tras registro/login)
         self.usuario_id = None
@@ -300,27 +311,36 @@ class TecminiCursosApp(tk.Tk):
         for widget in self.winfo_children():
             widget.destroy()
 
-        header = tk.Frame(self, bg="#E8F9F2")
+        header = tk.Frame(self, bg=self.colors["azul_oscuro"])
         header.pack(fill="x")
-        tk.Label(header, text="TECMINI — Cursos Interactivos", font=("Segoe UI", 24, "bold"), bg="#E8F9F2", fg="#1B5E20").pack(padx=20, pady=15)
+        
+        # Logo y título
+        logo_frame = tk.Frame(header, bg=self.colors["azul_oscuro"])
+        logo_frame.pack(padx=20, pady=15)
+        
+        # Simulando el logo TECMINI con texto
+        tk.Label(logo_frame, text="T E C M I N I", font=("Segoe UI", 24, "bold"), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack()
+        tk.Label(logo_frame, text="TECNOLOGIA PARA TODO", font=("Segoe UI", 14), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack(pady=(5, 0))
 
         # Contenedor central
-        cont = tk.Frame(self, bg="#F4FBF6")
-        cont.pack(expand=True)
+        cont = tk.Frame(self, bg=self.colors["fondo_claro"])
+        cont.pack(expand=True, fill="both")
 
-        panel = tk.Frame(cont, bg="#FFFFFF", bd=1, relief="solid")
+        panel = tk.Frame(cont, bg=self.colors["blanco"], bd=1, relief="solid")
         panel.pack(pady=30, ipadx=30, ipady=30)
 
-        tk.Label(panel, text="Nombre", font=("Segoe UI", 14), bg="#FFFFFF").grid(row=0, column=0, sticky="w", pady=5)
+        tk.Label(panel, text="Nombre", font=("Segoe UI", 14), bg=self.colors["blanco"]).grid(row=0, column=0, sticky="w", pady=5)
         nombre_entry = tk.Entry(panel, font=("Segoe UI", 12), width=30)
         nombre_entry.grid(row=0, column=1, pady=5, padx=10)
 
-        tk.Label(panel, text="Edad", font=("Segoe UI", 14), bg="#FFFFFF").grid(row=1, column=0, sticky="w", pady=5)
+        tk.Label(panel, text="Edad", font=("Segoe UI", 14), bg=self.colors["blanco"]).grid(row=1, column=0, sticky="w", pady=5)
         edad_entry = tk.Entry(panel, font=("Segoe UI", 12), width=10)
         edad_entry.grid(row=1, column=1, pady=5, padx=10, sticky="w")
 
         # Mensaje con clasificación automática
-        clasif_label = tk.Label(panel, text="", bg="#FFFFFF", font=("Segoe UI", 11, "italic"))
+        clasif_label = tk.Label(panel, text="", bg=self.colors["blanco"], font=("Segoe UI", 11, "italic"))
         clasif_label.grid(row=2, column=0, columnspan=2, pady=8)
 
         def actualizar_clasificacion(*args):
@@ -366,7 +386,7 @@ class TecminiCursosApp(tk.Tk):
             if usuario_id:
                 self.usuario_id = usuario_id[0]
                 self.nombre = nombre
-                self.edad = age_val = edad_val
+                self.edad = edad_val
                 self.categoria = categoria
                 self.puntos = 0
                 messagebox.showinfo("Registro", f"Registro exitoso. Bienvenido, {nombre} ({categoria})")
@@ -391,15 +411,18 @@ class TecminiCursosApp(tk.Tk):
             messagebox.showinfo("Login", f"Hola de nuevo, {self.nombre} ({self.categoria}). Bienvenido.")
             self.mostrar_menu()
 
-        btn_frame = tk.Frame(panel, bg="#FFFFFF")
+        btn_frame = tk.Frame(panel, bg=self.colors["blanco"])
         btn_frame.grid(row=3, column=0, columnspan=2, pady=15)
-        tk.Button(btn_frame, text="Registrar", bg="#4CAF50", fg="white", font=("Segoe UI", 12), command=registrar).pack(side="left", padx=8)
-        tk.Button(btn_frame, text="Iniciar sesión", bg="#2196F3", fg="white", font=("Segoe UI", 12), command=login).pack(side="left", padx=8)
+        tk.Button(btn_frame, text="Registrar", bg=self.colors["azul_medio"], fg="white", 
+                 font=("Segoe UI", 12), command=registrar).pack(side="left", padx=8)
+        tk.Button(btn_frame, text="Iniciar sesión", bg=self.colors["azul_claro"], fg="white", 
+                 font=("Segoe UI", 12), command=login).pack(side="left", padx=8)
 
         # Nota: Si deseas, puedes pre-completar con usuarios demo para pruebas.
-        demo_frame = tk.Frame(self, bg="#F4FBF6")
+        demo_frame = tk.Frame(self, bg=self.colors["fondo_claro"])
         demo_frame.pack(side="bottom", pady=10)
-        tk.Label(demo_frame, text="Consejo: Usa un nombre nuevo o un nombre existente para cargar progreso.", bg="#F4FBF6", font=("Segoe UI", 10, "italic")).pack()
+        tk.Label(demo_frame, text="Consejo: Usa un nombre nuevo o un nombre existente para cargar progreso.", 
+                bg=self.colors["fondo_claro"], font=("Segoe UI", 10, "italic")).pack()
 
     # ---------------------------
     # MENU PRINCIPAL
@@ -409,36 +432,47 @@ class TecminiCursosApp(tk.Tk):
         for widget in self.winfo_children():
             widget.destroy()
 
-        top = tk.Frame(self, bg="#E8F9F2")
+        top = tk.Frame(self, bg=self.colors["azul_oscuro"])
         top.pack(fill="x")
-        tk.Label(top, text=f"TECMINI — Bienvenido {self.nombre}", font=("Segoe UI", 20, "bold"), bg="#E8F9F2", fg="#1B5E20").pack(side="left", padx=20, pady=10)
-        tk.Label(top, text=f"Puntos: {self.puntos}", font=("Segoe UI", 12, "bold"), bg="#E8F9F2").pack(side="right", padx=20)
+        tk.Label(top, text=f"TECMINI — Bienvenido {self.nombre}", font=("Segoe UI", 20, "bold"), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack(side="left", padx=20, pady=10)
+        tk.Label(top, text=f"Puntos: {self.puntos}", font=("Segoe UI", 12, "bold"), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack(side="right", padx=20)
 
-        main = tk.Frame(self, bg="#F4FBF6")
+        main = tk.Frame(self, bg=self.colors["fondo_claro"])
         main.pack(expand=True, fill="both", padx=30, pady=20)
 
         # Panel izquierdo: lista de cursos
-        left = tk.Frame(main, bg="#F4FBF6")
+        left = tk.Frame(main, bg=self.colors["fondo_claro"])
         left.pack(side="left", fill="y", padx=10)
 
-        tk.Label(left, text="Cursos disponibles", font=("Segoe UI", 16, "bold"), bg="#F4FBF6").pack(anchor="w", pady=10)
+        tk.Label(left, text="Cursos disponibles", font=("Segoe UI", 16, "bold"), 
+                bg=self.colors["fondo_claro"], fg=self.colors["azul_oscuro"]).pack(anchor="w", pady=10)
 
         cursos = self.ejecutar_query("SELECT id, titulo, categoria FROM cursos", fetchall=True)
         for cid, titulo, cat in cursos:
-            btn = tk.Button(left, text=f"{titulo} ({cat})", width=30, anchor="w", bg="#E0F2F1", command=lambda c=cid: self.abrir_curso(c))
+            btn = tk.Button(left, text=f"{titulo} ({cat})", width=30, anchor="w", 
+                          bg=self.colors["azul_claro"], fg="white",
+                          command=lambda c=cid: self.abrir_curso(c))
             btn.pack(pady=4)
 
         # Panel derecho: acciones y progreso
-        right = tk.Frame(main, bg="#F4FBF6")
+        right = tk.Frame(main, bg=self.colors["fondo_claro"])
         right.pack(side="right", expand=True, fill="both")
 
-        tk.Label(right, text="Tu progreso y herramientas", font=("Segoe UI", 16, "bold"), bg="#F4FBF6").pack(anchor="w", pady=10)
+        tk.Label(right, text="Tu progreso y herramientas", font=("Segoe UI", 16, "bold"), 
+                bg=self.colors["fondo_claro"], fg=self.colors["azul_oscuro"]).pack(anchor="w", pady=10)
 
-        tk.Button(right, text="Ver mi progreso", width=25, bg="#A5D6A7", command=self.mostrar_progreso).pack(pady=8)
-        tk.Button(right, text="Ir al Quiz global", width=25, bg="#AED581", command=self.mostrar_quiz_global).pack(pady=8)
-        tk.Button(right, text="Ver Ranking", width=25, bg="#81C784", command=self.mostrar_ranking).pack(pady=8)
-        tk.Button(right, text="Administrar Contenido (dev)", width=25, bg="#C5E1A5", command=self.admin_contenido).pack(pady=8)
-        tk.Button(right, text="Cerrar sesión", width=25, bg="#FFCCBC", command=self.cerrar_sesion).pack(pady=8)
+        tk.Button(right, text="Ver mi progreso", width=25, bg=self.colors["azul_medio"], 
+                 fg="white", command=self.mostrar_progreso).pack(pady=8)
+        tk.Button(right, text="Ir al Quiz global", width=25, bg=self.colors["azul_claro"], 
+                 fg="white", command=self.mostrar_quiz_global).pack(pady=8)
+        tk.Button(right, text="Ver Ranking", width=25, bg=self.colors["verde"], 
+                 fg="white", command=self.mostrar_ranking).pack(pady=8)
+        tk.Button(right, text="Administrar Contenido (dev)", width=25, bg=self.colors["azul_medio"], 
+                 fg="white", command=self.admin_contenido).pack(pady=8)
+        tk.Button(right, text="Cerrar sesión", width=25, bg="#FFCCBC", 
+                 command=self.cerrar_sesion).pack(pady=8)
 
     # ---------------------------
     # ABRIR CURSO: listar lecciones y permitir iniciar
@@ -456,22 +490,25 @@ class TecminiCursosApp(tk.Tk):
             return
         titulo_c, descripcion = curso
 
-        top = tk.Frame(self, bg="#E8F9F2")
+        top = tk.Frame(self, bg=self.colors["azul_oscuro"])
         top.pack(fill="x")
-        tk.Button(top, text="⬅ Volver al menú", command=self.mostrar_menu).pack(side="left", padx=10, pady=10)
-        tk.Label(top, text=f"{titulo_c}", font=("Segoe UI", 20, "bold"), bg="#E8F9F2").pack(side="left", padx=20)
+        tk.Button(top, text="⬅ Volver al menú", bg=self.colors["azul_claro"], fg="white",
+                 command=self.mostrar_menu).pack(side="left", padx=10, pady=10)
+        tk.Label(top, text=f"{titulo_c}", font=("Segoe UI", 20, "bold"), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack(side="left", padx=20)
 
         # Recuperar lecciones del curso ordenadas
         lecciones = self.ejecutar_query("SELECT id, orden, titulo, duracion_estimada FROM lecciones WHERE curso_id=? ORDER BY orden ASC", (curso_id,), fetchall=True)
         if not lecciones:
-            tk.Label(self, text="Este curso no tiene lecciones todavía.", font=("Segoe UI", 12), bg="#F4FBF6").pack(pady=20)
+            tk.Label(self, text="Este curso no tiene lecciones todavía.", font=("Segoe UI", 12), bg=self.colors["fondo_claro"]).pack(pady=20)
             return
 
         # Panel de lista de lecciones
-        list_frame = tk.Frame(self, bg="#F4FBF6")
+        list_frame = tk.Frame(self, bg=self.colors["fondo_claro"])
         list_frame.pack(side="left", fill="y", padx=20, pady=10)
 
-        tk.Label(list_frame, text="Lecciones", font=("Segoe UI", 14, "bold"), bg="#F4FBF6").pack(anchor="w", pady=5)
+        tk.Label(list_frame, text="Lecciones", font=("Segoe UI", 14, "bold"), 
+                bg=self.colors["fondo_claro"], fg=self.colors["azul_oscuro"]).pack(anchor="w", pady=5)
         # Buscar progreso por usuario para este curso
         leccion_ids = [l[0] for l in lecciones]
         progreso_map = {}
@@ -489,13 +526,16 @@ class TecminiCursosApp(tk.Tk):
             if progreso_map.get(lecid) == 1:
                 estado = "Completada"
             btn_text = f"{orden}. {titulo_lec} — {estado}"
-            tk.Button(list_frame, text=btn_text, anchor="w", width=40, bg="#E0F2F1", command=lambda lid=lecid: self.abrir_leccion(lid)).pack(pady=4)
+            tk.Button(list_frame, text=btn_text, anchor="w", width=40, 
+                     bg=self.colors["azul_claro"], fg="white",
+                     command=lambda lid=lecid: self.abrir_leccion(lid)).pack(pady=4)
 
         # Panel derecho: descripción y acciones del curso
-        right = tk.Frame(self, bg="#F4FBF6")
+        right = tk.Frame(self, bg=self.colors["fondo_claro"])
         right.pack(side="right", expand=True, fill="both", padx=20, pady=10)
 
-        tk.Label(right, text="Descripción", font=("Segoe UI", 14, "bold"), bg="#F4FBF6").pack(anchor="w")
+        tk.Label(right, text="Descripción", font=("Segoe UI", 14, "bold"), 
+                bg=self.colors["fondo_claro"], fg=self.colors["azul_oscuro"]).pack(anchor="w")
         txt = tk.Text(right, width=60, height=7, wrap="word", font=("Segoe UI", 11))
         txt.insert("1.0", descripcion or "Sin descripción")
         txt.config(state="disabled")
@@ -518,8 +558,11 @@ class TecminiCursosApp(tk.Tk):
                     return
             self.abrir_leccion(primer_lec)
 
-        tk.Button(right, text="▶ Iniciar/Continuar Curso", font=("Segoe UI", 12, "bold"), bg="#81C784", command=iniciar_curso).pack(pady=10)
-        tk.Button(right, text="📥 Marcar curso como completado (dev)", bg="#C8E6C9", command=lambda: self.marcar_curso_como_completado(leccion_ids)).pack(pady=6)
+        tk.Button(right, text="▶ Iniciar/Continuar Curso", font=("Segoe UI", 12, "bold"), 
+                 bg=self.colors["verde"], fg="white", command=iniciar_curso).pack(pady=10)
+        tk.Button(right, text="📥 Marcar curso como completado (dev)", 
+                 bg=self.colors["azul_claro"], fg="white",
+                 command=lambda: self.marcar_curso_como_completado(leccion_ids)).pack(pady=6)
 
     def marcar_curso_como_completado(self, leccion_ids):
         """Utility dev: marca todas las lecciones de un curso como completadas por el usuario."""
@@ -561,13 +604,15 @@ class TecminiCursosApp(tk.Tk):
         self.leccion_actual_id = leccion_id
 
         # Header con navegación básica
-        top = tk.Frame(self, bg="#E8F9F2")
+        top = tk.Frame(self, bg=self.colors["azul_oscuro"])
         top.pack(fill="x")
-        tk.Button(top, text="⬅ Volver al curso", command=lambda: self.abrir_curso(curso_id)).pack(side="left", padx=8, pady=8)
-        tk.Label(top, text=f"Lección {orden}: {titulo_lec}", font=("Segoe UI", 16, "bold"), bg="#E8F9F2").pack(side="left", padx=20)
+        tk.Button(top, text="⬅ Volver al curso", bg=self.colors["azul_claro"], fg="white",
+                 command=lambda: self.abrir_curso(curso_id)).pack(side="left", padx=8, pady=8)
+        tk.Label(top, text=f"Lección {orden}: {titulo_lec}", font=("Segoe UI", 16, "bold"), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack(side="left", padx=20)
 
         # Contenido
-        content_frame = tk.Frame(self, bg="#F4FBF6")
+        content_frame = tk.Frame(self, bg=self.colors["fondo_claro"])
         content_frame.pack(expand=True, fill="both", padx=20, pady=10)
 
         # Mostrar el contenido (texto y placeholders)
@@ -577,7 +622,7 @@ class TecminiCursosApp(tk.Tk):
         text_widget.pack(expand=True, fill="both")
 
         # Panel inferior: acciones: marcar completado, ir a evaluación, siguiente / anterior
-        action_frame = tk.Frame(self, bg="#F4FBF6")
+        action_frame = tk.Frame(self, bg=self.colors["fondo_claro"])
         action_frame.pack(fill="x", pady=10)
 
         # Verificar si ya completó
@@ -588,7 +633,8 @@ class TecminiCursosApp(tk.Tk):
             completado = bool(prog[1])
             calificacion = prog[2]
 
-        status_lbl = tk.Label(action_frame, text=f"Estado: {'Completada' if completado else 'Pendiente'}    Calificación: {calificacion if calificacion is not None else 'N/A'}", bg="#F4FBF6", font=("Segoe UI", 11, "italic"))
+        status_lbl = tk.Label(action_frame, text=f"Estado: {'Completada' if completado else 'Pendiente'}    Calificación: {calificacion if calificacion is not None else 'N/A'}", 
+                             bg=self.colors["fondo_claro"], font=("Segoe UI", 11, "italic"))
         status_lbl.pack(side="left", padx=10)
 
         def marcar_como_completada():
@@ -608,8 +654,10 @@ class TecminiCursosApp(tk.Tk):
         def ir_a_evaluacion():
             self.mostrar_evaluacion(leccion_id)
 
-        tk.Button(action_frame, text="✔ Marcar como completada", bg="#66BB6A", command=marcar_como_completada).pack(side="right", padx=8)
-        tk.Button(action_frame, text="📝 Ir a evaluación", bg="#FFC107", command=ir_a_evaluacion).pack(side="right", padx=8)
+        tk.Button(action_frame, text="✔ Marcar como completada", bg=self.colors["verde"], fg="white",
+                 command=marcar_como_completada).pack(side="right", padx=8)
+        tk.Button(action_frame, text="📝 Ir a evaluación", bg=self.colors["azul_medio"], fg="white",
+                 command=ir_a_evaluacion).pack(side="right", padx=8)
 
         # Navegación: siguiente y anterior
         # Obtener lista de lecciones del curso para navegar
@@ -624,10 +672,12 @@ class TecminiCursosApp(tk.Tk):
             if 0 <= nidx < len(lecs_ids):
                 self.abrir_leccion(lecs_ids[nidx])
 
-        nav_frame = tk.Frame(self, bg="#F4FBF6")
+        nav_frame = tk.Frame(self, bg=self.colors["fondo_claro"])
         nav_frame.pack(fill="x", pady=4)
-        tk.Button(nav_frame, text="<< Anterior", command=lambda: ir_a_indice(idx-1)).pack(side="left", padx=8)
-        tk.Button(nav_frame, text="Siguiente >>", command=lambda: ir_a_indice(idx+1)).pack(side="right", padx=8)
+        tk.Button(nav_frame, text="<< Anterior", bg=self.colors["azul_claro"], fg="white",
+                 command=lambda: ir_a_indice(idx-1)).pack(side="left", padx=8)
+        tk.Button(nav_frame, text="Siguiente >>", bg=self.colors["azul_claro"], fg="white",
+                 command=lambda: ir_a_indice(idx+1)).pack(side="right", padx=8)
 
     # ---------------------------
     # EVALUACIÓN: preguntas vinculadas a lección
@@ -649,18 +699,20 @@ class TecminiCursosApp(tk.Tk):
         total_puntos_posibles = sum(p[-1] for p in preguntas)
 
         # Interfaz
-        top = tk.Frame(self, bg="#E8F9F2")
+        top = tk.Frame(self, bg=self.colors["azul_oscuro"])
         top.pack(fill="x")
-        tk.Button(top, text="⬅ Volver a la lección", command=lambda: self.abrir_leccion(leccion_id)).pack(side="left", padx=8, pady=8)
-        tk.Label(top, text="Evaluación — Responde las preguntas", font=("Segoe UI", 16, "bold"), bg="#E8F9F2").pack(padx=20, pady=10)
+        tk.Button(top, text="⬅ Volver a la lección", bg=self.colors["azul_claro"], fg="white",
+                 command=lambda: self.abrir_leccion(leccion_id)).pack(side="left", padx=8, pady=8)
+        tk.Label(top, text="Evaluación — Responde las preguntas", font=("Segoe UI", 16, "bold"), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack(padx=20, pady=10)
 
-        canvas = tk.Canvas(self, bg="#F4FBF6")
+        canvas = tk.Canvas(self, bg=self.colors["fondo_claro"])
         canvas.pack(side="left", fill="both", expand=True, padx=10, pady=10)
         scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
         scrollbar.pack(side="right", fill="y")
         canvas.configure(yscrollcommand=scrollbar.set)
 
-        frame = tk.Frame(canvas, bg="#F4FBF6")
+        frame = tk.Frame(canvas, bg=self.colors["fondo_claro"])
         canvas.create_window((0,0), window=frame, anchor='nw')
         frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
@@ -677,13 +729,13 @@ class TecminiCursosApp(tk.Tk):
                     opts.append(opt)
             random.shuffle(opts)
 
-            qframe = tk.LabelFrame(frame, text=f"Pregunta {idx}", font=("Segoe UI", 12, "bold"), bg="#F4FBF6")
+            qframe = tk.LabelFrame(frame, text=f"Pregunta {idx}", font=("Segoe UI", 12, "bold"), bg=self.colors["fondo_claro"])
             qframe.pack(fill="x", padx=10, pady=6)
-            tk.Label(qframe, text=texto, wraplength=800, justify="left", bg="#F4FBF6", font=("Segoe UI", 11)).pack(anchor="w", padx=10, pady=4)
+            tk.Label(qframe, text=texto, wraplength=800, justify="left", bg=self.colors["fondo_claro"], font=("Segoe UI", 11)).pack(anchor="w", padx=10, pady=4)
             var = tk.StringVar(value="")
             vars_list.append((pid, p[-1], correcta, var))
             for opt in opts:
-                tk.Radiobutton(qframe, text=opt, variable=var, value=opt, bg="#F4FBF6", anchor="w").pack(fill="x", padx=20, pady=2)
+                tk.Radiobutton(qframe, text=opt, variable=var, value=opt, bg=self.colors["fondo_claro"], anchor="w").pack(fill="x", padx=20, pady=2)
 
         # Botón de enviar evaluación
         def enviar_evaluacion():
@@ -714,7 +766,8 @@ class TecminiCursosApp(tk.Tk):
             messagebox.showinfo("Evaluación enviada", f"Obtuviste {puntos_obtenidos} / {total_puntos_posibles} puntos en esta evaluación.\nHas ganado {puntos_para_usuario} pts.")
             self.abrir_leccion(leccion_id)
 
-        tk.Button(frame, text="📤 Enviar evaluación", bg="#4CAF50", fg="white", font=("Segoe UI", 12, "bold"), command=enviar_evaluacion).pack(pady=16)
+        tk.Button(frame, text="📤 Enviar evaluación", bg=self.colors["verde"], fg="white", 
+                 font=("Segoe UI", 12, "bold"), command=enviar_evaluacion).pack(pady=16)
 
     # ---------------------------
     # FUNCIONES DE PUNTOS E INSIGNIAS
@@ -766,14 +819,16 @@ class TecminiCursosApp(tk.Tk):
         for widget in self.winfo_children():
             widget.destroy()
 
-        top = tk.Frame(self, bg="#E8F9F2")
+        top = tk.Frame(self, bg=self.colors["azul_oscuro"])
         top.pack(fill="x")
-        tk.Button(top, text="⬅ Volver", command=self.mostrar_menu).pack(side="left", padx=10, pady=8)
-        tk.Label(top, text="Tu progreso", font=("Segoe UI", 18, "bold"), bg="#E8F9F2").pack(padx=20, pady=8)
+        tk.Button(top, text="⬅ Volver", bg=self.colors["azul_claro"], fg="white",
+                 command=self.mostrar_menu).pack(side="left", padx=10, pady=8)
+        tk.Label(top, text="Tu progreso", font=("Segoe UI", 18, "bold"), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack(padx=20, pady=8)
 
         # Obtener cursos y conteo de lecciones/completadas
         cursos = self.ejecutar_query("SELECT id, titulo FROM cursos", fetchall=True)
-        container = tk.Frame(self, bg="#F4FBF6")
+        container = tk.Frame(self, bg=self.colors["fondo_claro"])
         container.pack(fill="both", expand=True, padx=20, pady=10)
         for cid, titulo in cursos:
             total = self.ejecutar_query("SELECT COUNT(*) FROM lecciones WHERE curso_id=?", (cid,), fetchone=True)[0]
@@ -781,10 +836,10 @@ class TecminiCursosApp(tk.Tk):
                                                 JOIN lecciones l ON p.leccion_id=l.id
                                                 WHERE p.usuario_id=? AND l.curso_id=? AND p.completado=1""", (self.usuario_id, cid), fetchone=True)[0]
             porcentaje = int((completadas/total)*100) if total > 0 else 0
-            frame = tk.Frame(container, bg="#FFFFFF", bd=1, relief="solid")
+            frame = tk.Frame(container, bg=self.colors["blanco"], bd=1, relief="solid")
             frame.pack(fill="x", pady=6)
-            tk.Label(frame, text=f"{titulo}", font=("Segoe UI", 14, "bold"), bg="#FFFFFF").pack(anchor="w", padx=10, pady=4)
-            tk.Label(frame, text=f"{completadas} / {total} lecciones completadas — {porcentaje} %", bg="#FFFFFF", font=("Segoe UI", 11)).pack(anchor="w", padx=10)
+            tk.Label(frame, text=f"{titulo}", font=("Segoe UI", 14, "bold"), bg=self.colors["blanco"]).pack(anchor="w", padx=10, pady=4)
+            tk.Label(frame, text=f"{completadas} / {total} lecciones completadas — {porcentaje} %", bg=self.colors["blanco"], font=("Segoe UI", 11)).pack(anchor="w", padx=10)
             progress = ttk.Progressbar(frame, length=300, value=porcentaje)
             progress.pack(padx=10, pady=8)
 
@@ -792,12 +847,14 @@ class TecminiCursosApp(tk.Tk):
         insignias = self.ejecutar_query("""SELECT i.nombre, i.descripcion, iu.fecha
                                           FROM insignias_usuario iu JOIN insignias i ON iu.insignia_id=i.id
                                           WHERE iu.usuario_id=?""", (self.usuario_id,), fetchall=True)
-        tk.Label(container, text="Insignias obtenidas:", font=("Segoe UI", 14, "bold"), bg="#F4FBF6").pack(anchor="w", pady=6)
+        tk.Label(container, text="Insignias obtenidas:", font=("Segoe UI", 14, "bold"), 
+                bg=self.colors["fondo_claro"], fg=self.colors["azul_oscuro"]).pack(anchor="w", pady=6)
         if insignias:
             for nombre, desc, fecha in insignias:
-                tk.Label(container, text=f"🏅 {nombre} — {desc} ({fecha})", bg="#F4FBF6").pack(anchor="w", padx=10)
+                tk.Label(container, text=f"🏅 {nombre} — {desc} ({fecha})", bg=self.colors["fondo_claro"]).pack(anchor="w", padx=10)
         else:
-            tk.Label(container, text="Aún no tienes insignias. Sigue aprendiendo para obtenerlas!", bg="#F4FBF6").pack(anchor="w", padx=10, pady=6)
+            tk.Label(container, text="Aún no tienes insignias. Sigue aprendiendo para obtenerlas!", 
+                    bg=self.colors["fondo_claro"]).pack(anchor="w", padx=10, pady=6)
 
     # ---------------------------
     # QUIZ GLOBAL (aleatorio)
@@ -807,24 +864,27 @@ class TecminiCursosApp(tk.Tk):
         for widget in self.winfo_children():
             widget.destroy()
 
-        top = tk.Frame(self, bg="#E8F9F2")
+        top = tk.Frame(self, bg=self.colors["azul_oscuro"])
         top.pack(fill="x")
-        tk.Button(top, text="⬅ Volver", command=self.mostrar_menu).pack(side="left", padx=10, pady=8)
-        tk.Label(top, text="Quiz Global", font=("Segoe UI", 18, "bold"), bg="#E8F9F2").pack(padx=10, pady=8)
+        tk.Button(top, text="⬅ Volver", bg=self.colors["azul_claro"], fg="white",
+                 command=self.mostrar_menu).pack(side="left", padx=10, pady=8)
+        tk.Label(top, text="Quiz Global", font=("Segoe UI", 18, "bold"), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack(padx=10, pady=8)
 
         # Seleccionar 5 preguntas al azar
         preguntas = self.ejecutar_query("SELECT id, pregunta, opcion_correcta, opcion_incorrecta1, opcion_incorrecta2, opcion_incorrecta3, puntos FROM preguntas ORDER BY RANDOM() LIMIT 5", fetchall=True)
         if not preguntas:
-            tk.Label(self, text="No hay preguntas en la base de datos.", bg="#F4FBF6").pack(pady=20)
-            tk.Button(self, text="⬅ Volver", command=self.mostrar_menu).pack(pady=10)
+            tk.Label(self, text="No hay preguntas en la base de datos.", bg=self.colors["fondo_claro"]).pack(pady=20)
+            tk.Button(self, text="⬅ Volver", bg=self.colors["azul_claro"], fg="white",
+                     command=self.mostrar_menu).pack(pady=10)
             return
 
-        canvas = tk.Canvas(self, bg="#F4FBF6")
+        canvas = tk.Canvas(self, bg=self.colors["fondo_claro"])
         canvas.pack(side="left", fill="both", expand=True, padx=10, pady=10)
         scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
         scrollbar.pack(side="right", fill="y")
         canvas.configure(yscrollcommand=scrollbar.set)
-        frame = tk.Frame(canvas, bg="#F4FBF6")
+        frame = tk.Frame(canvas, bg=self.colors["fondo_claro"])
         canvas.create_window((0,0), window=frame, anchor='nw')
         frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
@@ -839,13 +899,13 @@ class TecminiCursosApp(tk.Tk):
             puntos = p[-1]
             total_possible += puntos
 
-            qf = tk.LabelFrame(frame, text=f"Pregunta {idx} — {puntos} pts", bg="#F4FBF6")
+            qf = tk.LabelFrame(frame, text=f"Pregunta {idx} — {puntos} pts", bg=self.colors["fondo_claro"])
             qf.pack(fill="x", padx=10, pady=6)
-            tk.Label(qf, text=texto, wraplength=800, justify="left", bg="#F4FBF6").pack(anchor="w", padx=8, pady=4)
+            tk.Label(qf, text=texto, wraplength=800, justify="left", bg=self.colors["fondo_claro"]).pack(anchor="w", padx=8, pady=4)
             var = tk.StringVar(value="")
             vars_q.append((pid, correcta, puntos, var))
             for opt in opts:
-                tk.Radiobutton(qf, text=opt, variable=var, value=opt, bg="#F4FBF6").pack(anchor="w", padx=12)
+                tk.Radiobutton(qf, text=opt, variable=var, value=opt, bg=self.colors["fondo_claro"]).pack(anchor="w", padx=12)
 
         def enviar_quiz_global():
             puntos_obtenidos = 0
@@ -857,7 +917,8 @@ class TecminiCursosApp(tk.Tk):
             messagebox.showinfo("Resultado", f"Has obtenido {puntos_obtenidos} pts en el quiz global (máx {total_possible}).")
             self.mostrar_menu()
 
-        tk.Button(frame, text="Enviar respuestas", bg="#4CAF50", fg="white", command=enviar_quiz_global).pack(pady=12)
+        tk.Button(frame, text="Enviar respuestas", bg=self.colors["verde"], fg="white", 
+                 command=enviar_quiz_global).pack(pady=12)
 
     # ---------------------------
     # RANKING: top usuarios por puntos
@@ -866,16 +927,19 @@ class TecminiCursosApp(tk.Tk):
         for widget in self.winfo_children():
             widget.destroy()
 
-        top = tk.Frame(self, bg="#E8F9F2")
+        top = tk.Frame(self, bg=self.colors["azul_oscuro"])
         top.pack(fill="x")
-        tk.Button(top, text="⬅ Volver", command=self.mostrar_menu).pack(side="left", padx=10, pady=8)
-        tk.Label(top, text="🏆 Ranking de usuarios", font=("Segoe UI", 18, "bold"), bg="#E8F9F2").pack(pady=8)
+        tk.Button(top, text="⬅ Volver", bg=self.colors["azul_claro"], fg="white",
+                 command=self.mostrar_menu).pack(side="left", padx=10, pady=8)
+        tk.Label(top, text="🏆 Ranking de usuarios", font=("Segoe UI", 18, "bold"), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack(pady=8)
 
         ranking = self.ejecutar_query("SELECT nombre, categoria, puntos FROM usuarios ORDER BY puntos DESC LIMIT 20", fetchall=True)
-        frame = tk.Frame(self, bg="#F4FBF6")
+        frame = tk.Frame(self, bg=self.colors["fondo_claro"])
         frame.pack(padx=20, pady=10, fill="both", expand=True)
         for i, (nombre, cat, puntos) in enumerate(ranking, start=1):
-            tk.Label(frame, text=f"{i}. {nombre} ({cat}) — {puntos} pts", bg="#F4FBF6", font=("Segoe UI", 12)).pack(anchor="w", pady=2)
+            tk.Label(frame, text=f"{i}. {nombre} ({cat}) — {puntos} pts", 
+                    bg=self.colors["fondo_claro"], font=("Segoe UI", 12)).pack(anchor="w", pady=2)
 
     # ---------------------------
     # ADMIN: añadir curso/lección/pregunta (dev helper)
@@ -885,20 +949,23 @@ class TecminiCursosApp(tk.Tk):
         for widget in self.winfo_children():
             widget.destroy()
 
-        top = tk.Frame(self, bg="#E8F9F2")
+        top = tk.Frame(self, bg=self.colors["azul_oscuro"])
         top.pack(fill="x")
-        tk.Button(top, text="⬅ Volver", command=self.mostrar_menu).pack(side="left", padx=10, pady=8)
-        tk.Label(top, text="Administrar contenido (dev)", font=("Segoe UI", 18, "bold"), bg="#E8F9F2").pack(pady=8)
+        tk.Button(top, text="⬅ Volver", bg=self.colors["azul_claro"], fg="white",
+                 command=self.mostrar_menu).pack(side="left", padx=10, pady=8)
+        tk.Label(top, text="Administrar contenido (dev)", font=("Segoe UI", 18, "bold"), 
+                bg=self.colors["azul_oscuro"], fg=self.colors["blanco"]).pack(pady=8)
 
-        frame = tk.Frame(self, bg="#F4FBF6")
+        frame = tk.Frame(self, bg=self.colors["fondo_claro"])
         frame.pack(padx=20, pady=10, fill="both", expand=True)
 
         # Sección crear curso
-        tk.Label(frame, text="Crear nuevo curso", font=("Segoe UI", 14, "bold"), bg="#F4FBF6").grid(row=0, column=0, sticky="w")
-        tk.Label(frame, text="Título:", bg="#F4FBF6").grid(row=1, column=0, sticky="w")
+        tk.Label(frame, text="Crear nuevo curso", font=("Segoe UI", 14, "bold"), 
+                bg=self.colors["fondo_claro"], fg=self.colors["azul_oscuro"]).grid(row=0, column=0, sticky="w")
+        tk.Label(frame, text="Título:", bg=self.colors["fondo_claro"]).grid(row=1, column=0, sticky="w")
         title_e = tk.Entry(frame, width=50)
         title_e.grid(row=1, column=1, sticky="w")
-        tk.Label(frame, text="Descripción:", bg="#F4FBF6").grid(row=2, column=0, sticky="nw")
+        tk.Label(frame, text="Descripción:", bg=self.colors["fondo_claro"]).grid(row=2, column=0, sticky="nw")
         desc_e = tk.Text(frame, width=50, height=5)
         desc_e.grid(row=2, column=1, sticky="w")
 
@@ -912,20 +979,22 @@ class TecminiCursosApp(tk.Tk):
             messagebox.showinfo("Curso creado", f"Curso '{t}' creado.")
             self.mostrar_menu()
 
-        tk.Button(frame, text="Crear curso", bg="#4CAF50", fg="white", command=crear_curso).grid(row=3, column=1, sticky="w", pady=8)
+        tk.Button(frame, text="Crear curso", bg=self.colors["verde"], fg="white", 
+                 command=crear_curso).grid(row=3, column=1, sticky="w", pady=8)
 
         # Sección crear lección
-        tk.Label(frame, text="Crear lección (para curso existente)", font=("Segoe UI", 14, "bold"), bg="#F4FBF6").grid(row=4, column=0, columnspan=2, pady=10, sticky="w")
-        tk.Label(frame, text="Curso (ID):", bg="#F4FBF6").grid(row=5, column=0, sticky="w")
+        tk.Label(frame, text="Crear lección (para curso existente)", font=("Segoe UI", 14, "bold"), 
+                bg=self.colors["fondo_claro"], fg=self.colors["azul_oscuro"]).grid(row=4, column=0, columnspan=2, pady=10, sticky="w")
+        tk.Label(frame, text="Curso (ID):", bg=self.colors["fondo_claro"]).grid(row=5, column=0, sticky="w")
         curso_id_e = tk.Entry(frame, width=10)
         curso_id_e.grid(row=5, column=1, sticky="w")
-        tk.Label(frame, text="Orden:", bg="#F4FBF6").grid(row=6, column=0, sticky="w")
+        tk.Label(frame, text="Orden:", bg=self.colors["fondo_claro"]).grid(row=6, column=0, sticky="w")
         orden_e = tk.Entry(frame, width=10)
         orden_e.grid(row=6, column=1, sticky="w")
-        tk.Label(frame, text="Título lección:", bg="#F4FBF6").grid(row=7, column=0, sticky="w")
+        tk.Label(frame, text="Título lección:", bg=self.colors["fondo_claro"]).grid(row=7, column=0, sticky="w")
         titulo_lec_e = tk.Entry(frame, width=50)
         titulo_lec_e.grid(row=7, column=1, sticky="w")
-        tk.Label(frame, text="Contenido:", bg="#F4FBF6").grid(row=8, column=0, sticky="nw")
+        tk.Label(frame, text="Contenido:", bg=self.colors["fondo_claro"]).grid(row=8, column=0, sticky="nw")
         contenido_lec_e = tk.Text(frame, width=50, height=6)
         contenido_lec_e.grid(row=8, column=1, sticky="w")
 
@@ -945,7 +1014,8 @@ class TecminiCursosApp(tk.Tk):
             messagebox.showinfo("Lección creada", f"Lección '{titulo}' creada.")
             self.mostrar_menu()
 
-        tk.Button(frame, text="Crear lección", bg="#4CAF50", fg="white", command=crear_leccion).grid(row=9, column=1, sticky="w", pady=6)
+        tk.Button(frame, text="Crear lección", bg=self.colors["verde"], fg="white", 
+                 command=crear_leccion).grid(row=9, column=1, sticky="w", pady=6)
 
     # ---------------------------
     # CERRAR SESIÓN
